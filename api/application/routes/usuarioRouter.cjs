@@ -8,5 +8,6 @@ const usuarioController = new UsuarioController();
 const usuarioValidator = new UsuarioValidator();
 
 router.get("/", usuarioValidator.validateUserDataEmpty(), (req, res) => usuarioController.getUsers(req, res))
+router.post("/", usuarioValidator.validateUserData(),(req, res) => usuarioController.createUser(req, res));
 
 module.exports = router;

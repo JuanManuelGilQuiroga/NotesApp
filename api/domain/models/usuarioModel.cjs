@@ -17,4 +17,11 @@ module.exports = class Usuarios {
         return res;
     }
 
+    async insert(userData) {
+        let obj = ConnectToDatabase.instanceConnect;
+        const collection = obj.db.collection('usuario');
+        const res = await collection.insertMany([userData]);
+        return res;
+    }
+
 }

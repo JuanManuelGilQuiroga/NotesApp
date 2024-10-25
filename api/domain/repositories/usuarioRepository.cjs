@@ -21,4 +21,13 @@ module.exports = class UsuarioRepository {
             throw new Error(JSON.stringify({ status: 404, message: 'Usuarios no encontrados.' }));
         }
     }
+
+    async save(userData) {
+        try {
+            const user = new Usuario();
+            return await user.insert(userData);
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 500, message: 'Error guardando usuario.' }));
+        }
+    }
 }

@@ -18,7 +18,7 @@ const createServer = () => {
     
     const server = http.createServer(app);
 
-    app.use("/usuarios", UsuarioRoutes);
+    app.use("/users", UsuarioRoutes);
 
     return server; // Retorna el servidor configurado
 };
