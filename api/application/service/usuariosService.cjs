@@ -16,6 +16,16 @@ module.exports = class UsuarioService {
     }
 
     async createUser(data) {
-        return await this.usuarioRepository.save(data); // Llama al repositorio para guardar el nuevo usuario
+        return await this.usuarioRepository.save(data);
+    }
+
+    async searchUsersByquery(query) {
+        const user = await this.usuarioRepository.searchQuery(query);
+        if (!user) {
+            throw new Error(
+                JSON.stringify({ status: 404, message: "Consulta no encontrada." })
+            );
+        }
+        return user;
     }
 }

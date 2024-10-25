@@ -24,4 +24,15 @@ module.exports = class Usuarios {
         return res;
     }
 
+    async searchByQuery(query) {
+        let obj = ConnectToDatabase.instanceConnect;
+        const collection = obj.db.collection('usuarios');
+        const info = await collection.find({
+            $or: [
+                { nick: query.nick }
+            ]
+        }).toArray();
+        return info;
+    }
+
 }

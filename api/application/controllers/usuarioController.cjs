@@ -35,4 +35,31 @@ module.exports = class UsuarioController {
             res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
+
+    async login(req, res) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    
+            const body = await this.usuarioService.searchUsersByquery(req.body);
+            const usuario = body.length > 0 ? body[0] : null;
+    
+            if (!usuario) return res.status(400).json({ message: 'Nick invalido' });
+            
+    
+            const passwordMatch = await bcrypt.compare(req.body.contraseña, usuario.contraseña);
+            if (!passwordMatch) return res.status(400).json({ message: 'Contraseña invalida' });
+            
+    
+            const token = jwtUtils.generateToken(usuario);
+            const user = usuario.id;
+            req.session.passport = { user: user };
+            req.session.token = token;
+    
+            res.status(200).json({ token, usuario });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
 }

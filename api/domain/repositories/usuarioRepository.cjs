@@ -30,4 +30,13 @@ module.exports = class UsuarioRepository {
             throw new Error(JSON.stringify({ status: 500, message: 'Error guardando usuario.' }));
         }
     }
+
+    async searchQuery(query) {
+        try {
+            const user = new Usuario();
+            return await user.searchByQuery(query);
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 404, message: 'Error finding query' }));
+        }
+    }
 }
