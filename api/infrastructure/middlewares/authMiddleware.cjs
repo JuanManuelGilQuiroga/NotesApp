@@ -2,6 +2,7 @@ const jwtUtils = require("../../utils/jwtUtils.cjs");
 
 exports.authenticateToken = (req, res, next) => {
     const userId = req.session?.passport?.user;
+    console.log(req.session.passport)
 
     if (req.session && userId) {
         const token = req.session.token;
