@@ -17,10 +17,29 @@ module.exports = class Nota {
         return res;
     }
 
-    async insert(userData) {
+    async insert(noteData) {
         let obj = ConnectToDatabase.instanceConnect;
         const collection = obj.db.collection('nota');
-        const res = await collection.insertMany([userData]);
+        const res = await collection.insertMany([noteData]);
+        return res;
+    }
+
+    async update(id, dataUpdate) {
+        let obj = ConnectToDatabase.instanceConnect;
+        const collection = obj.db.collection('nota');
+        const res = await collection.updateOne(
+            {_id: new ObjectId(id)},
+            {$set: dataUpdate}
+        );
+        return res;
+    }
+
+    async delete(id) {
+        let obj = ConnectToDatabase.instanceConnect;
+        const collection = obj.db.collection('nota');
+        const res = await collection.deleteOne({
+            _id: new ObjectId(id)
+        });
         return res;
     }
 

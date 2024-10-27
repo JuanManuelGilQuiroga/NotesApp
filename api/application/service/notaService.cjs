@@ -29,4 +29,12 @@ module.exports = class NotaService {
         return await this.notaRepository.save(data);
     }
 
+    async changeNote(id, dataUpdate) {
+        return await this.notaRepository.modify(id, dataUpdate);
+    }
+
+    async deleteNote(id) {
+        return await this.notaRepository.remove(id);
+    }
+
 }

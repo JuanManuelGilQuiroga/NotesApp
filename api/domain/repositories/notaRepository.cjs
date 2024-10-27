@@ -30,4 +30,22 @@ module.exports = class NotaRepository {
         }
     }
 
+    async modify(id, dataUpdate) {
+        try {
+            const nota = new Nota();
+            return await nota.update(id, dataUpdate);
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 500, message: 'Error actualizando nota.' }));
+        }
+    }
+
+    async remove(id) {
+        try {
+            const nota = new Nota();
+            return await nota.delete(id);
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 500, message: 'Error eliminando nota.' }));
+        }
+    }
+
 }

@@ -33,7 +33,6 @@ module.exports = class NotaController {
           if (!note) {
             return res.status(404).json({ message: "Nota no encontrada" });
           }
-        console.log("usuario de req.user",req.user)
           res.status(200).json(note);
         } catch (error) {
           const errorObj = JSON.parse(error.message);
@@ -58,6 +57,40 @@ module.exports = class NotaController {
         } catch (error) {
             const errorObj = JSON.parse(error.message);
             res.status(errorObj.status).json({ message: errorObj.message });
+        }
+    }
+
+    async changeNote(req, res) {
+        try {
+          const errors = validationResult(req);
+          if (!errors.isEmpty())
+            return res.status(400).json({ errors: errors.array() });
+    
+          const note = await this.notaService.changeNote(req.params.id, req.body);
+          if (!note) {
+            return res.status(404).json({ message: "Nota no actualizada" });
+          }
+          res.status(200).json(note);
+        } catch (error) {
+          const errorObj = JSON.parse(error.message);
+          res.status(errorObj.status).json({ message: errorObj.message });
+        }
+    }
+
+    async deleteNote(req, res) {
+        try {
+          const errors = validationResult(req);
+          if (!errors.isEmpty())
+            return res.status(400).json({ errors: errors.array() });
+    
+          const note = await this.notaService.deleteNote(req.params.id);
+          if (!note) {
+            return res.status(404).json({ message: "Nota no eliminada" });
+          }
+          res.status(200).json(note);
+        } catch (error) {
+          const errorObj = JSON.parse(error.message);
+          res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
 
