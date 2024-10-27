@@ -22,6 +22,24 @@ module.exports = class UsuarioController {
         }
     }
 
+    async getUser(req, res) {
+        try {
+          const errors = validationResult(req);
+          if (!errors.isEmpty())
+            return res.status(400).json({ errors: errors.array() });
+    
+          const user = await this.usuarioService.getUserById(req.params.id);
+          if (!user) {
+            return res.status(404).json({ message: "User not found" });
+          }
+    
+          res.status(200).json(user);
+        } catch (error) {
+          const errorObj = JSON.parse(error.message);
+          res.status(errorObj.status).json({ message: errorObj.message });
+        }
+      }
+
     async createUser(req, res) {
         try {
             const errors = validationResult(req);
@@ -50,13 +68,15 @@ module.exports = class UsuarioController {
             const passwordMatch = await bcrypt.compare(req.body.contraseña, usuario.contraseña);
             if (!passwordMatch) return res.status(400).json({ message: 'Contraseña invalida' });
             
-    
             const token = jwtUtils.generateToken(usuario);
-            const user = usuario.id;
-            req.session.passport = { user: user };
-            req.session.token = token;
-    
-            res.status(200).json({ token, usuario });
+            req.login(usuario, (err) => {
+                console.log(usuario)
+                if (err) return res.status(500).json({ message: 'Error al iniciar sesión' });
+
+                req.session.token = token;
+
+                res.status(200).json({ token, usuario });
+            });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal server error' });

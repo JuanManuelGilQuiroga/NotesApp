@@ -8,6 +8,7 @@ const usuarioController = new UsuarioController();
 const usuarioValidator = new UsuarioValidator();
 
 router.get("/", usuarioValidator.validateUserDataEmpty(), (req, res) => usuarioController.getUsers(req, res));
+router.get("/:id", (req, res) => usuarioController.getUser(req, res));
 router.post("/", usuarioValidator.validateUserData(),(req, res) => usuarioController.createUser(req, res));
 router.post("/loginAccount", async (req, res) => {
     try {

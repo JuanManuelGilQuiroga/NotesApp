@@ -2,23 +2,24 @@ const jwtUtils = require("../../utils/jwtUtils.cjs");
 
 exports.authenticateToken = (req, res, next) => {
     const userId = req.session?.passport?.user;
-    console.log(req.session.passport)
-
+    console.log("userId",userId)
+    
     if (req.session && userId) {
         const token = req.session.token;
-
+        
         if (!token) {
-        // Si no hay token, responde con 401 y limpia la cookie
-        res.clearCookie("connect.sid", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            domain: "localhost",
-            sameSite: "strict",
-        });
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+            // Si no hay token, responde con 401 y limpia la cookie
+            res.clearCookie("connect.sid", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                domain: "localhost",
+                sameSite: "strict",
+            });
+            return res.status(401).json({ error: "Unauthorized: No token provided" });
         }
-
+        
         jwtUtils.verifyToken(token, (err, user) => {
+            console.log(user)
         if (err) {
             // Si el token no es válido, destruir la sesión y responder con 401
             req.session.destroy((err) => {
@@ -33,7 +34,8 @@ exports.authenticateToken = (req, res, next) => {
             });
             return res.status(401).json({ error: "Unauthorized: Invalid token" });
             });
-        } else if (userId !== user.id) {
+        } else if (userId !== user._id) {
+            console.log("user.id", user._id)
             // Si el usuario en la sesión no coincide con el del token
             req.session.destroy((err) => {
             if (err) {

@@ -11,8 +11,9 @@ module.exports = class Usuarios {
     }
 
     async findById (id) {
+        console.log(id)
         let obj = ConnectToDatabase.instanceConnect;
-        const collection = obj.db.collection('usuarios');
+        const collection = obj.db.collection('usuario');
         const [res] = await collection.find({_id: new ObjectId(id)}).toArray();
         return res;
     }

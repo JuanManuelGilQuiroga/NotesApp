@@ -1,12 +1,19 @@
 const passport = require("passport");
+const Usuario = require('../../domain/models/usuarioModel.cjs');
 
-passport.serializeUser((user, done) => {
-    console.log("Serializando usuario:", user);
-    done(null, user.id);
-});
+module.exports = (passport) => {
+    passport.serializeUser((user, done) => {
+        console.log("Serializando usuario:", user);
+        done(null, user._id);
+    });
 
-passport.deserializeUser(async (id, done) => {
-    done(null, done);
-});
-
-module.exports = passport;
+    passport.deserializeUser(async (id, done) => {
+        // Aquí puedes buscar el usuario en la base de datos usando el ID
+        // y luego llamar a done(null, user) para pasar el usuario al siguiente middleware
+        console.log("Deserializando usuario con ID:", id);
+        const userCollection = new Usuario();
+        const user = await userCollection.findById(id);
+        console.log("Usuario deserializado:", user);
+        done(null, user); // Este es un ejemplo básico
+    });
+};

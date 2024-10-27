@@ -15,6 +15,16 @@ module.exports = class UsuarioService {
         return user;
     }
 
+    async getUserById(id) {
+        const user = await this.usuarioRepository.getById(id);
+        if (!user) {
+          throw new Error(
+            JSON.stringify({ status: 404, message: "User not found" })
+          );
+        }
+        return user;
+      }
+
     async createUser(data) {
         return await this.usuarioRepository.save(data);
     }

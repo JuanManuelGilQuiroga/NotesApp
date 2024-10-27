@@ -7,6 +7,8 @@ const {authenticateToken} = require("../middlewares/authMiddleware.cjs");
 const { loginLimiter, getLimiter, postLimiter, deleteLimiter, putLimiter } = require("../middlewares/rateLimit.cjs");
 const UsuarioRouter = require("../../application/routes/usuarioRouter.cjs")
 const NotaRouter = require("../../application/routes/notaRouter.cjs")
+const passportConfig = require("../middlewares/passportConfig.cjs");
+passportConfig(passport);
 
 const createServer = () => {
     const app = express(); // Crea una nueva instancia de Express
