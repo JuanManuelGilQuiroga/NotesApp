@@ -5,7 +5,7 @@ module.exports = class NotaService {
         this.notaRepository = new NotaRepository();
     }
 
-    async getUsers() {
+    async getNotes() {
         const user = await this.notaRepository.getAll();
         if (!user) {
             throw new Error(
@@ -13,6 +13,16 @@ module.exports = class NotaService {
             );
         }
         return user;
+    }
+
+    async getNoteById(id) {
+        const note = await this.notaRepository.getById(id);
+        if (!note) {
+          throw new Error(
+            JSON.stringify({ status: 404, message: "Note not found" })
+          );
+        }
+        return note;
     }
 
     async createNote(data) {

@@ -4,8 +4,8 @@ const Nota = require('../models/notaModel.cjs');
 module.exports = class NotaRepository {
     async getAll() {
         try {
-            const user = new Nota();
-            return await user.findAll();
+            const note = new Nota();
+            return await note.findAll();
         } catch (error) {
             console.error('Error en getAll:', error);
             throw new Error(JSON.stringify({ status: 404, message: 'Notas no encontradas.' }));
@@ -14,11 +14,10 @@ module.exports = class NotaRepository {
 
     async getById(id) {
         try {
-            const user = new Nota();
-            return await user.findById(id);
+            const note = new Nota();
+            return await note.findById(id);
         } catch (error) {
-            console.error('Error en getAll:', error);
-            throw new Error(JSON.stringify({ status: 404, message: 'Notas no encontradas.' }));
+            throw new Error(JSON.stringify({ status: 404, message: 'Nota no encontrada.' }));
         }
     }
 

@@ -23,7 +23,7 @@ module.exports = class UsuarioService {
           );
         }
         return user;
-      }
+    }
 
     async createUser(data) {
         return await this.usuarioRepository.save(data);
