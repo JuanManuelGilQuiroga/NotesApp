@@ -1,102 +1,97 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const HistorialService = require("../service/historialService.cjs");
-const NotaService = require("../service/notaService.cjs");
 const jwtUtils = require("../../utils/jwtUtils.cjs");
 const { ObjectId } = require("mongodb");
 
-module.exports = class NotaController {
+module.exports = class HistorialController {
     constructor() {
-        this.notaService = new NotaService();
         this.historialService = new HistorialService();
     }
 
-    async getNotes(req, res) {
+    async getRecords(req, res) {
         try {
-            const notes = await this.notaService.getNotes();
-            if (!notes) {
-                return res.status(404).json({ message: "Notas no encontradas" });
+            const records = await this.historialService.getRecords();
+            if (!records) {
+                return res.status(404).json({ message: "Historiales no encontrados" });
             }
-            console.log(notes)
-            res.status(200).json(notes);
+            console.log(records)
+            res.status(200).json(records);
         } catch (error) {
             const errorObj = JSON.parse(error.message);
             res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
 
-    async getNote(req, res) {
+    async getRecord(req, res) {
         try {
           const errors = validationResult(req);
           if (!errors.isEmpty())
             return res.status(400).json({ errors: errors.array() });
     
-          const note = await this.notaService.getNoteById(req.params.id);
-          if (!note) {
-            return res.status(404).json({ message: "Nota no encontrada" });
+          const record = await this.historialService.getRecordById(req.params.id);
+          if (!record) {
+            return res.status(404).json({ message: "Historial no encontrado" });
           }
-          res.status(200).json(note);
-        } catch (error) {
+          res.status(200).json(record);
+        } catch (record) {
           const errorObj = JSON.parse(error.message);
           res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
 
-    async createNote(req, res) {
+    async createRecord(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
             const { titulo, descripcion } = req.body;
             const { _id } = req.user
-            const nota = {
+            const historial = {
                 usuarioId: new ObjectId(_id),
                 titulo: titulo,
                 descripcion: descripcion,
                 fecha: new Date()
             }
-            const note = await this.notaService.createNote(nota);
-            const notaId = note.insertedId;
-            const historial = {
-                notaId: notaId,
-                fecha_creacion: new Date(),
-                historial: []
-            }
-            const record = await this.historialService.createRecord(historial);
-            res.status(201).json(note);
+            const record = await this.historialService.createRecord(nota);
+            res.status(201).json(record);
         } catch (error) {
             const errorObj = JSON.parse(error.message);
             res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
 
-    async changeNote(req, res) {
+    async changeRecord(req, res) {
         try {
           const errors = validationResult(req);
-          if (!errors.isEmpty())
-            return res.status(400).json({ errors: errors.array() });
-    
-          const note = await this.notaService.changeNote(req.params.id, req.body);
-          if (!note) {
-            return res.status(404).json({ message: "Nota no actualizada" });
+          if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+          const { titulo, descripcion } = req.body;
+          const historial = {
+              titulo: titulo,
+              descripcion: descripcion,
+              fecha_actualizacion: new Date()
           }
-          res.status(200).json(note);
+          const record = await this.historialService.changeRecord(req.params.id, historial);
+          if (!record) {
+            return res.status(404).json({ message: "Historial no actualizado" });
+          }
+          res.status(200).json(record);
         } catch (error) {
           const errorObj = JSON.parse(error.message);
           res.status(errorObj.status).json({ message: errorObj.message });
         }
     }
 
-    async deleteNote(req, res) {
+    async deleteRecord(req, res) {
         try {
           const errors = validationResult(req);
           if (!errors.isEmpty())
             return res.status(400).json({ errors: errors.array() });
     
-          const note = await this.notaService.deleteNote(req.params.id);
-          if (!note) {
-            return res.status(404).json({ message: "Nota no eliminada" });
+          const record = await this.historialService.deleteRecord(req.params.id);
+          if (!record) {
+            return res.status(404).json({ message: "Historial no eliminado" });
           }
-          res.status(200).json(note);
+          res.status(200).json(record);
         } catch (error) {
           const errorObj = JSON.parse(error.message);
           res.status(errorObj.status).json({ message: errorObj.message });
