@@ -140,7 +140,7 @@ export function Note () {
 
     return (
         <div className="w-[100%] h-[100%] flex flex-col items-center">
-            <header className="w-[100%] h-[150px] flex justify-between items-center px-5">
+            <header className="w-[100%] h-[150px] flex justify-between items-center px-7">
                 <Icon icon={LeftIcon} onClick={() => handleGoBack()}/>
                 <div className="flex gap-4">
                     {data.data ?
@@ -159,7 +159,7 @@ export function Note () {
                     }
                 </div>
             </header>
-            <main className="text-white w-[100%] px-5">
+            <main className="text-white w-[100%] px-7">
                 {data.data ?
                     isEditing ? 
                     <>

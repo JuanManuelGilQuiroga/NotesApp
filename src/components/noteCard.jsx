@@ -74,7 +74,7 @@ export function NoteCard ({title, id}) {
     };
 
     return (
-        <Link onClick={handleClick}  ref={infoRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} to={`/note/${id}`} className={`w-[100%] h-[120px] max-h-[180px] overflow-hidden rounded-xl px-14 flex justify-center items-center ${isClicked ? "bg-red-600" : "bg-violet-400"} `}>
+        <Link onClick={handleClick}  ref={infoRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} to={`/note/${id}`} className={`w-[100%] h-[120px] max-h-[180px] overflow-hidden rounded-xl px-14 flex justify-start items-center ${isClicked ? "bg-red-600" : "bg-violet-400"} `}>
             {isClicked ? 
             <img src={TrashIcon} onClick={() => handleDelete(id)}/>
             :

@@ -6,7 +6,10 @@ export default {
       colors: {
         'first-black': '#252525',
         'second-black': '#3B3B3B'
-      }
+      },
+      fontFamily: {
+        sans: ['Nunito', 'sans-serif'],
+      },
     },
   },
   plugins: [],
