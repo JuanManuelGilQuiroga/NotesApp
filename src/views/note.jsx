@@ -179,7 +179,7 @@ export function Note () {
                 }  
             </main>
             {saveChanges ? 
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+            <div className="fixed inset-0 bg-white bg-opacity-30 flex items-center justify-center z-10">
                 {/* Contenedor del Modal */}
                 <div className="bg-first-black text-white px-6 py-8 rounded-lg shadow-lg w-80 flex flex-col justify-around items-center gap-5">
                     <img src={WarningIcon} />
@@ -194,7 +194,7 @@ export function Note () {
             ("")
             }
             {discardChanges ? 
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+            <div className="fixed inset-0 bg-white bg-opacity-30 flex items-center justify-center z-10">
                 {/* Contenedor del Modal */}
                 <div className="bg-first-black text-white px-6 py-8 rounded-lg shadow-lg w-80 flex flex-col justify-around items-center gap-5">
                     <img src={WarningIcon} />

@@ -52,7 +52,7 @@ export function Home () {
                     <Icon icon={InfoIcon} onClick={() => setInfo(true)}/>
                 </div>
             </header>
-            <main className="text-white w-[100%] px-5">
+            <main className="text-white w-[100%] px-5 flex flex-grow justify-center items-center">
                 {data.length > 0 ? 
                 <div className="w-[100%] h-[100%] overflow-y-scroll overflow-hidden flex flex-col gap-5">
                     {data.map((nota, index) => {
@@ -61,15 +61,15 @@ export function Home () {
                         )
                     }) }
                 </div> :
-                <div className="w-[100%]">
-                    <img src="../../public/homeImage.png" className="w-[100%]" />
+                <div className="w-[100%] flex flex-col justify-center items-center mt-[-10rem] text-center font-light text-lg">
+                    <img src="../../public/homeImage.png" className="w-[100%] max-w-[350px]" />
                     <p>Create your first note !</p>
                 </div>
                 }
             </main>
             <Link to="/note" className="w-[70px] h-[70px] rounded-full flex justify-center items-center absolute bottom-12 right-5"style={{boxShadow: '-4px 4px 10px 2px rgba(0, 0, 0, 0.5)'}} ><img src={AddIcon} /></Link>
             {info ? 
-            <div  className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+            <div  className="fixed inset-0 bg-white bg-opacity-30 flex items-center justify-center z-10">
                 {/* Contenedor del Modal */}
                 <div ref={infoRef} className="bg-first-black text-white px-6 py-8 rounded-3xl shadow-lg w-96 flex flex-col justify-around items-center gap-5 font-extralight">
                     <div className="w-[100%] flex flex-col gap-2">
