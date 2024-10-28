@@ -2,7 +2,7 @@
 import { useState } from 'react'
 // import './App.css'
 
-import { Home } from './views/home';
+import { Home, notasLoader } from './views/home';
 import { Login } from './views/login';
 import { Register } from './views/register';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
@@ -18,7 +18,8 @@ const routes = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />
+    element: <Home />,
+    loader: notasLoader
   }
 ])
 

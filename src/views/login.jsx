@@ -16,6 +16,7 @@ export function Login() {
         try {
             const response = await fetch('http://localhost:3001/users/loginAccount', {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                 },
