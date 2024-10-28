@@ -29,8 +29,9 @@ module.exports = class Historial {
         const collection = obj.db.collection('historial');
         const res = await collection.updateOne(
             {notaId: new ObjectId(id)},
-            {$push: { [historial]: dataUpdate }}
+            {$push: { historial: dataUpdate }}
         );
+        console.log( "res del modelo historial",res)
         return res;
     }
 

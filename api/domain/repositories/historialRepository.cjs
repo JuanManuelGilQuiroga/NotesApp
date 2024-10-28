@@ -24,6 +24,7 @@ module.exports = class HistorialRepository {
     async save(noteData) {
         try {
             const historial = new Historial();
+            console.log(historial);
             return await historial.insert(noteData);
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: 'Error guardando historial.' }));
@@ -33,6 +34,7 @@ module.exports = class HistorialRepository {
     async modify(id, dataUpdate) {
         try {
             const historial = new Historial();
+            console.log("id",id, dataUpdate)
             return await historial.update(id, dataUpdate);
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: 'Error actualizando historial.' }));

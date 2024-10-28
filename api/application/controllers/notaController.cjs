@@ -56,11 +56,18 @@ module.exports = class NotaController {
                 fecha: new Date()
             }
             const note = await this.notaService.createNote(nota);
-            const notaId = note.insertedId;
+            console.log("Esta es la nota ingresada",note)
+            const notaId = note.insertedIds[0];
             const historial = {
                 notaId: notaId,
                 fecha_creacion: new Date(),
-                historial: []
+                historial: [
+                  {
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    fecha_actualizacion: new Date()
+                  }
+                ]
             }
             const record = await this.historialService.createRecord(historial);
             res.status(201).json(note);
