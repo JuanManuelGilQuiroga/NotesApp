@@ -14,7 +14,7 @@ export function Login() {
         const body = JSON.stringify({ nick, password });
         console.log(body)
         try {
-            const response = await fetch('http://localhost:3001/users/loginAccount', {
+            const response = await fetch('http://localhost:3001/users/login', {
                 method: 'POST',
                 credentials: "include",
                 headers: {

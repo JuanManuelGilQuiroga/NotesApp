@@ -3,6 +3,7 @@ import SaveIcon from "../assets/save.svg"
 import VisibilityIcon from "../assets/visibility.svg"
 import LeftIcon from "../assets/left.svg"
 import EditIcon from "../assets/edit.svg"
+import WarningIcon from "../assets/warning.svg"
 import { useEffect, useRef, useState } from "react";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
@@ -34,6 +35,8 @@ export function Note () {
     const [title, setTitle] = useState(data.data ? data.data.titulo : "Titulo");
     const [description, setDescription] = useState(data.data ? data.data.descripcion : "Escribe algo...");
     const [isEditing, setIsEditing] = useState(false);
+    const [saveChanges, setSaveChanges] = useState(false);
+    const [discardChanges, setDiscardChanges] = useState(false);
 
     const titleRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -48,6 +51,15 @@ export function Note () {
 
     const toggleEdit = () => {
         setIsEditing(!isEditing);
+    };
+
+    const toggleSave = () => {
+        setSaveChanges(!saveChanges);
+    };
+
+    const toggleSaveAndSecureDiscard = () => {
+        setSaveChanges(!saveChanges);
+        setDiscardChanges(!discardChanges)
     };
 
     const handleGoBack = () => {
@@ -107,6 +119,18 @@ export function Note () {
             if (!response.ok) {
                 return;
             }
+            const response2 = await fetch(`http://localhost:3001/notes/${id}/history`, {
+                method: 'PUT',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ titulo, descripcion }),
+            });
+
+            if (!response2.ok) {
+                return;
+            }
 
             const data = await response.json();
             console.log(data.message);
@@ -123,14 +147,14 @@ export function Note () {
                         isEditing ? 
                         <>
                             <Icon icon={VisibilityIcon}/>
-                            <Icon icon={SaveIcon} onClick={() => handlePostOrPut(title, description)}/>
+                            <Icon icon={SaveIcon} onClick={() => toggleSave()}/>
                         </> 
                         :
                         <Icon icon={EditIcon} onClick={() => toggleEdit()}/>
                     :
                     <>
                         <Icon icon={VisibilityIcon}/>
-                        <Icon icon={SaveIcon} onClick={() => handlePostOrPut(title, description)}/>
+                        <Icon icon={SaveIcon} onClick={() => toggleSave()}/>
                     </>    
                     }
                 </div>
@@ -154,7 +178,36 @@ export function Note () {
                 </> 
                 }  
             </main>
-            <div></div>
+            {saveChanges ? 
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                {/* Contenedor del Modal */}
+                <div className="bg-first-black text-white px-6 py-8 rounded-lg shadow-lg w-80 flex flex-col justify-around items-center gap-5">
+                    <img src={WarningIcon} />
+                    <p className="text-xl text-center">Save changes?</p>
+                    <div className="flex justify-end gap-4">
+                        <button onClick={() => toggleSaveAndSecureDiscard()} className="px-4 py-2 bg-red-500 rounded">Discard</button>
+                        <button onClick={() => handlePostOrPut(title, description)} className="px-4 py-2 bg-green-500 rounded">Save</button>
+                    </div>
+                </div>
+            </div>
+            :
+            ("")
+            }
+            {discardChanges ? 
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                {/* Contenedor del Modal */}
+                <div className="bg-first-black text-white px-6 py-8 rounded-lg shadow-lg w-80 flex flex-col justify-around items-center gap-5">
+                    <img src={WarningIcon} />
+                    <p className="text-xl text-center">Are you sure you want to discard your changes?</p>
+                    <div className="flex justify-end gap-4">
+                        <button onClick={() => window.location.reload()} className="px-4 py-2 bg-red-500 rounded">Discard</button>
+                        <button onClick={() => toggleSaveAndSecureDiscard()} className="px-4 py-2 bg-green-500 rounded">Keep</button>
+                    </div>
+                </div>
+            </div>
+            :
+            ("")
+            }
         </div>
     )
 }
