@@ -13,7 +13,8 @@ module.exports = class NotaController {
 
     async getNotes(req, res) {
         try {
-            const notes = await this.notaService.getNotes();
+            const { _id } = req.user
+            const notes = await this.notaService.getNotes(_id);
             if (!notes) {
                 return res.status(404).json({ message: "Notas no encontradas" });
             }

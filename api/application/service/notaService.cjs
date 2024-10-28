@@ -5,8 +5,8 @@ module.exports = class NotaService {
         this.notaRepository = new NotaRepository();
     }
 
-    async getNotes() {
-        const user = await this.notaRepository.getAll();
+    async getNotes(id) {
+        const user = await this.notaRepository.getAll(id);
         if (!user) {
             throw new Error(
                 JSON.stringify({ status: 404, message: "Usuario no encontrado." })

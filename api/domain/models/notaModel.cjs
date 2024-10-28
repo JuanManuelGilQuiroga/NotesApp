@@ -3,10 +3,12 @@ const { ObjectId } = require('mongodb');
 
 module.exports = class Nota {
 
-    async findAll() {
+    async findAll(id) {
         let obj = ConnectToDatabase.instanceConnect;
         const collection = obj.db.collection('nota');
-        const res = await collection.find().toArray();
+        const res = await collection.find({
+            usuarioId: new ObjectId(id)
+        }).toArray();
         return res;
     }
 

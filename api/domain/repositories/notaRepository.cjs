@@ -2,10 +2,10 @@ const { ObjectId } = require('mongodb');
 const Nota = require('../models/notaModel.cjs');
 
 module.exports = class NotaRepository {
-    async getAll() {
+    async getAll(id) {
         try {
             const note = new Nota();
-            return await note.findAll();
+            return await note.findAll(id);
         } catch (error) {
             console.error('Error en getAll:', error);
             throw new Error(JSON.stringify({ status: 404, message: 'Notas no encontradas.' }));
