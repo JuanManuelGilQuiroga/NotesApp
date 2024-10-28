@@ -2,7 +2,7 @@ import SearchIcon from "../assets/search.svg"
 import InfoIcon from "../assets/info.svg"
 import AddIcon from "../assets/add.svg"
 import { Icon } from "../components/icon"
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { NoteCard } from "../components/noteCard";
 
 export const notasLoader = async () => {
@@ -38,7 +38,7 @@ export function Home () {
                 <div className="w-[100%] h-[100%] overflow-y-scroll overflow-hidden">
                     {data.map((nota, index) => {
                         return (
-                            <NoteCard title={nota.titulo}/>                       
+                            <NoteCard title={nota.titulo} id={nota._id}/>                       
                         )
                     }) }
                 </div> :
@@ -48,7 +48,7 @@ export function Home () {
                 </div>
                 }
             </main>
-            <div className="w-[70px] h-[70px] rounded-full flex justify-center items-center absolute bottom-12 right-5"style={{boxShadow: '-4px 4px 10px 2px rgba(0, 0, 0, 0.5)'}} ><img src={AddIcon} /></div>
+            <Link to="/note" className="w-[70px] h-[70px] rounded-full flex justify-center items-center absolute bottom-12 right-5"style={{boxShadow: '-4px 4px 10px 2px rgba(0, 0, 0, 0.5)'}} ><img src={AddIcon} /></Link>
         </div>
     )
 }

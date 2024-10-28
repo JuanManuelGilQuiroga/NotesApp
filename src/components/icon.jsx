@@ -1,5 +1,5 @@
-export function Icon ({icon, position}) {
+export function Icon ({icon, position, onClick }) {
     return (
-        <div className={`w-[50px] h-[50px] rounded-lg flex justify-center items-center bg-second-black ${position}`}><img src={icon} /></div>
+        <div onClick={onClick} className={`w-[50px] h-[50px] rounded-lg flex justify-center items-center bg-second-black ${position}`}><img src={icon} /></div>
     )
 }
