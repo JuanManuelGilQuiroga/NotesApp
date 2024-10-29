@@ -168,8 +168,8 @@ export function Note () {
                     </>
                     :
                     <>
-                        <p className="text-5xl w-[100%] px-2">{title}</p>
-                        <p className="text-2xl w-[100%] px-2 mt-10">{description}</p>
+                        <p className="text-5xl w-[100%] px-2 break-words">{title}</p>
+                        <p className="text-2xl w-[100%] px-2 mt-10 overflow-wrap break-words">{description}</p>
                     </>
                 :
                 <>

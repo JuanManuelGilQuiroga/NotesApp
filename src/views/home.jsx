@@ -1,8 +1,9 @@
 import SearchIcon from "../assets/search.svg"
 import InfoIcon from "../assets/info.svg"
 import AddIcon from "../assets/add.svg"
+import LogoutIcon from "../assets/logout.svg"
 import { Icon } from "../components/icon"
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { NoteCard } from "../components/noteCard";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "../components/search"
@@ -25,6 +26,7 @@ export const notasLoader = async () => {
 
 export function Home () {
     const {data, error} = useLoaderData();
+    const navigate = useNavigate();
     const [info, setInfo] = useState(false);
     const [search, setSearch] = useState(false);
     const infoRef = useRef(null);
@@ -38,6 +40,25 @@ export function Home () {
         if (infoRef.current && !infoRef.current.contains(event.target)) {
             setInfo(false);
         }
+    };
+
+    const handleLogout = async () => {
+        const response = await fetch(`http://localhost:3001/users/logout`, {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        navigate('/');
+
     };
 
     useEffect(() => {
@@ -60,6 +81,7 @@ export function Home () {
                     <div className="flex gap-4">
                         <Icon icon={SearchIcon} onClick={() => toggleSearch()}/>
                         <Icon icon={InfoIcon} onClick={() => setInfo(true)}/>
+                        <Icon icon={LogoutIcon} onClick={() => handleLogout()}/>
                     </div>
                 </header>
                 <main className="text-white w-[100%] px-7 flex flex-grow justify-center items-center">
