@@ -17,5 +17,12 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ error: "Error en el login" });
     }
 });
+router.post("/logout", async (req, res) => {
+    try {
+      await usuarioController.logout(req, res);
+    } catch (error) {
+      res.status(500).json({ error: "Error al cerrar sesión" });
+    }
+  });
 
 module.exports = router;

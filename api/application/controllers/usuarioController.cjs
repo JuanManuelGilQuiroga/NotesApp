@@ -82,4 +82,28 @@ module.exports = class UsuarioController {
             res.status(500).json({ message: 'Internal server error' });
         }
     }
+
+    async logout(req, res) {
+        try {
+          // Limpiar la cookie del token
+          res.clearCookie("connect.sid", {
+            httpOnly: false,
+            secure: "false",
+            domain: "localhost",
+            sameSite: "strict",
+          });
+          // Destruir la sesión y enviar la respuesta solo cuando se complete
+          req.session.destroy((err) => {
+            if (err) {
+              console.error("Error al destruir la sesión:", err);
+              return res.status(500).json({ message: "Error al cerrar la sesión" });
+            }
+    
+            res.status(200).json({ message: "Logout successful" });
+          });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: "Internal server error" });
+        }
+      }
 }
